@@ -9,10 +9,6 @@ local.properties
 .loadpath
 .recommenders/
 
-# Eclipse Core
-.project
-.classpath
-
 # Java
 *.class
 
