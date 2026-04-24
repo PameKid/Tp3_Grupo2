@@ -25,3 +25,6 @@ build/
 # OS files
 .DS_Store
 Thumbs.db
+
+CONSIGNA_TP3.md
+trello.json
