@@ -2,6 +2,7 @@ package dao;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
 
 /**
  * Clase para crear una conexión única a la bbdd para toda la app.
@@ -28,11 +29,11 @@ public class Conexion {
 	private static Conexion instancia;
 	private Connection connection;
 
-	Conexion() {
+	private Conexion() {
 		String cadenaConexion = HOST + DB_NAME;
 		try {
 			this.connection = DriverManager.getConnection(cadenaConexion, USER, PASS);
-		} catch (Exception e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
@@ -47,6 +48,9 @@ public class Conexion {
 
 	/** método para obtener la conexión desde la instancia **/
 	public Connection getConnection() {
+		if (connection == null) {
+			throw new IllegalStateException("No se pudo establecer la conexion con la base de datos.");
+		}
 		return connection;
 	}
 
