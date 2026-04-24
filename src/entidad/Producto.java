@@ -17,11 +17,11 @@ public class Producto {
 		}
 		
 		public Producto(String codigo, String nombre, double precio, int stock, Categoria categoria) {
-			this.codigo = codigo; 
-			this.nombre = nombre;
-			this.precio = precio; 
-			this.stock = stock; 
-			this.categoria = categoria;
+			setCodigo(codigo);
+			setNombre(nombre);
+			setPrecio(precio);
+			setStock(stock);
+			setCategoria(categoria);
 			
 		}
 		
@@ -36,7 +36,11 @@ public class Producto {
 			
 				throw  new IllegalArgumentException("El código no debe ser un campo vacío"); 
 			}
-			this.codigo = codigo;
+			String codigoNormalizado = codigo.trim();
+			if (codigoNormalizado.length() > 20) {
+				throw new IllegalArgumentException("El codigo no puede superar 20 caracteres");
+			}
+			this.codigo = codigoNormalizado;
 		}
 
 		public String getNombre() {
@@ -49,7 +53,11 @@ public class Producto {
 				
 				throw  new IllegalArgumentException("El nombre no debe ser un campo vacío"); 
 			}
-			this.nombre = nombre;
+			String nombreNormalizado = nombre.trim();
+			if (nombreNormalizado.length() > 45) {
+				throw new IllegalArgumentException("El nombre no puede superar 45 caracteres");
+			}
+			this.nombre = nombreNormalizado;
 		}
 
 		public double getPrecio() {
@@ -59,6 +67,13 @@ public class Producto {
 		public void setPrecio(double precio) {
 			if(precio <= 0 ) {
 				throw  new IllegalArgumentException("No se ingresar un valor menor o igual a cero");
+			}
+			if (precio > 99999999.99) {
+				throw new IllegalArgumentException("El precio no puede superar 99999999.99");
+			}
+			double precioEscalado = precio * 100;
+			if (Math.abs(precioEscalado - Math.round(precioEscalado)) > 1e-9) {
+				throw new IllegalArgumentException("El precio no puede tener mas de 2 decimales");
 			}
 			this.precio = precio;
 		}

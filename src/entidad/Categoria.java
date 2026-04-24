@@ -11,7 +11,7 @@ public class Categoria {
 	}
 	
 	public Categoria (String nombre) {
-		this.nombre = nombre;
+		setNombre(nombre);
 	}
 	
 	//getters y setters
@@ -21,7 +21,7 @@ public class Categoria {
 	}
 
 	public void setIdCategoria(int idCategoria) {
-		if(idCategoria < 0) {
+		if(idCategoria <= 0) {
 			throw new IllegalArgumentException("ID debe ser mayor a 0");
 			
 		}
@@ -36,7 +36,11 @@ public class Categoria {
 		if (nombre == null || nombre.trim().isEmpty()) {
 	        throw new IllegalArgumentException("El nombre no puede ser vacío");
 	    }
-	    this.nombre = nombre;
+		String nombreNormalizado = nombre.trim();
+		if (nombreNormalizado.length() > 45) {
+			throw new IllegalArgumentException("El nombre no puede superar 45 caracteres");
+		}
+	    this.nombre = nombreNormalizado;
 	}
 
 	@Override
