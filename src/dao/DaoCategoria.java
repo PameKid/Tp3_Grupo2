@@ -36,4 +36,31 @@ public class DaoCategoria {
 	    
 	    return filas;
 	}
+
+	public int eliminarCategoria(int idCategoria) {
+		if (idCategoria <= 0) {
+			throw new IllegalArgumentException("ID de categoria invalido");
+		}
+
+		int filas = 0;
+		String query = "DELETE FROM Categorias WHERE IdCategoria = ?";
+		PreparedStatement pst = null;
+
+		try {
+			pst = Conexion.getInstancia().getConnection().prepareStatement(query);
+			pst.setInt(1, idCategoria);
+			filas = pst.executeUpdate();
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		} finally {
+			try {
+				if (pst != null)
+					pst.close();
+			} catch (SQLException ex) {
+				ex.printStackTrace();
+			}
+		}
+
+		return filas;
+	}
 }
