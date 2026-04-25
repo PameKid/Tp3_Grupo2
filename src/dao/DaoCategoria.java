@@ -1,7 +1,12 @@
 package dao;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+
 import entidad.Categoria;
 
 public class DaoCategoria {
@@ -62,5 +67,36 @@ public class DaoCategoria {
 		}
 
 		return filas;
+	}
+	
+	//Pamela Vizcarra 
+	
+	public ArrayList<Categoria> obtenerCategorias(){
+		
+		ArrayList<Categoria> lCategoria = new ArrayList<Categoria>();
+		Connection cn = null;
+		try {
+		cn = Conexion.getInstancia().getConnection();
+		String query = "Select * from Categorias";
+		Statement st = cn.createStatement();
+		ResultSet rs = st.executeQuery(query);
+		
+		while (rs.next()) {
+			
+			Categoria categoria = new Categoria();
+			categoria.setIdCategoria(rs.getInt("IdCategoria"));
+			categoria.setNombre(rs.getString("Nombre"));
+			
+			lCategoria.add(categoria);
+			}
+
+	
+		}
+		
+		catch (Exception e ) {
+			
+			e.printStackTrace();
+		}
+		return lCategoria; 
 	}
 }
