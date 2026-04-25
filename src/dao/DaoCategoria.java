@@ -69,6 +69,44 @@ public class DaoCategoria {
 		return filas;
 	}
 	
+	// Sebastian Flores
+	
+	public int modificarCategoria(Categoria c) {
+		
+		int filas = 0;
+		String query = "UPDATE Categorias SET Nombre = ? WHERE IdCategoria = ?";
+		PreparedStatement pst = null;
+
+		try
+		{
+			pst = Conexion.getInstancia().getConnection().prepareStatement(query);
+			pst.setString(1, c.getNombre());
+			pst.setInt(2, c.getIdCategoria());
+			filas = pst.executeUpdate();
+		}
+		catch (SQLException ex)
+		{
+			ex.printStackTrace();
+		}
+		finally
+		{
+			try
+			{
+				if(pst != null) pst.close();
+			}
+			catch (SQLException ex)
+			{
+				ex.printStackTrace();
+			}
+		}
+
+		return filas;
+	}
+	
+	
+	
+	
+	
 	//Pamela Vizcarra 
 	
 	public ArrayList<Categoria> obtenerCategorias(){
