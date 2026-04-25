@@ -53,5 +53,18 @@ public class Conexion {
 		}
 		return connection;
 	}
+	
+	
+	
+	/** método para cerrar la conexión **/
+	public void cerrarConexion() {
+	    try {
+	        if (connection != null && !connection.isClosed()) {
+	            connection.close();
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	} 
 
 }
