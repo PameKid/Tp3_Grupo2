@@ -2,6 +2,7 @@ package dao;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 import entidad.Producto;
@@ -41,5 +42,38 @@ public class DaoProducto {
 				e.printStackTrace();
 			}
 		}
+	}
+
+	public int modificarProducto(Producto p) {
+
+		int filas = 0;
+		String sql = "UPDATE Productos SET Nombre=?, Precio=?, Stock=?, IdCategoria=? WHERE Codigo=?";
+		PreparedStatement pst = null;
+
+		try {
+			Connection conexion = Conexion.getInstancia().getConnection();
+			pst = conexion.prepareStatement(sql);
+
+			pst.setString(1, p.getNombre());
+			pst.setDouble(2, p.getPrecio());
+			pst.setInt(3, p.getStock());
+			pst.setInt(4, p.getCategoria().getIdCategoria());
+			pst.setString(5, p.getCodigo());
+
+			filas = pst.executeUpdate();
+
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		} finally {
+			try {
+				if (pst != null) {
+					pst.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+
+		return filas;
 	}
 }
