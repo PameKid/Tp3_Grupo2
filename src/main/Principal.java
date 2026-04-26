@@ -78,10 +78,18 @@ public class Principal {
 		          daoProd.agregarProducto(new Producto("P009", "SSD Kingston 480GB", 62000, 9, c5));
 		          daoProd.agregarProducto(new Producto("P010", "Disco Externo WD 1TB", 99000, 4, c5));
 
+		          // PRUEBA HARD CODEADA: MODIFICAR PRODUCTO
+		          int filasMod = daoProd.modificarProducto(new Producto("P001", "Mouse Logitech MOD", 19999, 15, c1));
+		          System.out.println("Filas modificadas producto P001: " + filasMod);
+
+		          // PRUEBA HARD CODEADA: ELIMINAR PRODUCTO
+		          int filasDel = daoProd.eliminarProducto("P010");
+		          System.out.println("Filas eliminadas producto P010: " + filasDel);
+
 		          // MOSTRAR PRODUCTOS
-		         // for (Producto p : daoProd.obtenerProductos()) {
-		            //  System.out.println(p);
-		        //  }
+		          for (Producto p : daoProd.obtenerProductos()) {
+		              System.out.println(p);
+		          }
      
 		          
 		
