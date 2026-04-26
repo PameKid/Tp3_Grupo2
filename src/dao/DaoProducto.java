@@ -76,4 +76,36 @@ public class DaoProducto {
 
 		return filas;
 	}
+	
+	public int eliminarProducto(String codigo) {
+		int filas = 0;
+		String query =  "DELETE FROM Productos WHERE Codigo = ?";
+		PreparedStatement pst = null;
+		
+		try 
+		{
+			Connection conexion = Conexion.getInstancia().getConnection();
+			pst = conexion.prepareStatement(query);
+			pst.setString(1,codigo);
+			
+			filas = pst.executeUpdate();
+		}
+		catch(SQLException ex) 
+		{
+			ex.printStackTrace();
+		} 
+		finally 
+		{
+			try 
+			{
+				if (pst != null) { pst.close(); }
+			} 
+			catch (SQLException e) 
+			{
+				e.printStackTrace();
+			}
+		}
+		return filas;
+	}
 }
+
