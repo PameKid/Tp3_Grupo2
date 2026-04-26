@@ -3,8 +3,12 @@ package dao;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 
+import entidad.Categoria;
 import entidad.Producto;
 
 public class DaoProducto {
@@ -107,5 +111,61 @@ public class DaoProducto {
 		}
 		return filas;
 	}
+	
+	public ArrayList<Producto> obtenerProductos() {
+
+		ArrayList<Producto> lProducto = new ArrayList<Producto>();
+		Connection cn = null;
+		Statement st = null;
+		ResultSet rs = null;
+
+		try {
+
+			cn = Conexion.getInstancia().getConnection();
+
+			String query = "SELECT p.Codigo, p.Nombre, p.Precio, p.Stock, " +
+						   "c.IdCategoria, c.Nombre AS NombreCategoria " +
+						   "FROM Productos p " +
+						   "INNER JOIN Categorias c ON p.IdCategoria = c.IdCategoria";
+
+			st = cn.createStatement();
+			rs = st.executeQuery(query);
+
+			while (rs.next()) {
+
+				Categoria categoria = new Categoria();
+				categoria.setIdCategoria(rs.getInt("IdCategoria"));
+				categoria.setNombre(rs.getString("NombreCategoria"));
+
+				Producto producto = new Producto();
+				producto.setCodigo(rs.getString("Codigo"));
+				producto.setNombre(rs.getString("Nombre"));
+				producto.setPrecio(rs.getDouble("Precio"));
+				producto.setStock(rs.getInt("Stock"));
+				producto.setCategoria(categoria);
+
+				lProducto.add(producto);
+			}
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		} finally {
+
+			try {
+				if (rs != null) rs.close();
+				if (st != null) st.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+
+		return lProducto;
+	}
+	
+	
+	
+	
 }
 
