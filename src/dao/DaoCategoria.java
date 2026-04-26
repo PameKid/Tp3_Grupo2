@@ -63,7 +63,7 @@ public class DaoCategoria {
 	}
 
 	
-	
+	// Sebastian Flores
 	
 	public int modificarCategoria(Categoria c) {
 		
@@ -99,7 +99,7 @@ public class DaoCategoria {
 	
 	
 	
-	 
+	//Pamela Vizcarra 
 
 	public ArrayList<Categoria> obtenerCategorias() {
 

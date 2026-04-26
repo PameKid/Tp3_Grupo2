@@ -3,12 +3,8 @@ package dao;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
 
-import entidad.Categoria;
 import entidad.Producto;
 
 public class DaoProducto {
@@ -81,51 +77,35 @@ public class DaoProducto {
 		return filas;
 	}
 	
-	public ArrayList<Producto> obtenerProductos(){
-		ArrayList<Producto> lProducto = new ArrayList<Producto>();
-		Connection cn = null;
-		Statement st = null;
-		ResultSet rs = null;
+	public int eliminarProducto(String codigo) {
+		int filas = 0;
+		String query =  "DELETE FROM Productos WHERE Codigo = ?";
+		PreparedStatement pst = null;
 		
-		try {
-			cn = Conexion.getInstancia().getConnection();
-			String query = "Select * from Productos";
-			st = cn.createStatement();
-			rs = st.executeQuery(query);
-
-			while (rs.next()) {
-
-				Producto producto = new Producto();
-				producto.setCodigo(rs.getString("Codigo"));
-				producto.setNombre(rs.getString("Nombre"));
-				producto.setPrecio(rs.getDouble("Precio"));
-				producto.setStock(rs.getInt("Stock"));
-
-				lProducto.add(producto);
-			}
-
+		try 
+		{
+			Connection conexion = Conexion.getInstancia().getConnection();
+			pst = conexion.prepareStatement(query);
+			pst.setString(1,codigo);
+			
+			filas = pst.executeUpdate();
 		}
-
-		catch (Exception e) {
-
-			e.printStackTrace();
-		} finally {
-		
-			try {
-				if (rs != null)
-					rs.close();
-				if (st != null)
-					st.close();
-			} catch (SQLException e) {
+		catch(SQLException ex) 
+		{
+			ex.printStackTrace();
+		} 
+		finally 
+		{
+			try 
+			{
+				if (pst != null) { pst.close(); }
+			} 
+			catch (SQLException e) 
+			{
 				e.printStackTrace();
 			}
 		}
-		return lProducto;
+		return filas;
 	}
-	
-	
-	
-	
-	
-	
 }
+
